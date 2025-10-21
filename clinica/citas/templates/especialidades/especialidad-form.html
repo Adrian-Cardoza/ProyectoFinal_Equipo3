@@ -1,0 +1,22 @@
+{% extends "core/base.html" %}
+
+{% block titulo %} Nueva Especialidad {% endblock %}
+
+
+{% block contenido %}     
+    <form method="post">
+        {% csrf_token %}
+        <div class="card shadow-lg">
+            <div class="card-header">
+                <h2 class="card-title text-center">Nueva Especialidad</h2>
+            </div>
+            <div class="card-body">
+                {{ form.as_table }}
+            </div>
+            <div class="card-footer d-flex justify-content-evenly">
+                <button type="submit" class="btn btn-success">Guardar</button>
+                <a href="{% url 'citas:especialidad-list' %}" class="btn btn-outline-danger">Cancelar</a>
+            </div>
+        </div>
+    </form>
+{% endblock %}

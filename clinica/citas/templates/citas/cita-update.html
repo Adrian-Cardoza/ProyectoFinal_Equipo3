@@ -1,0 +1,14 @@
+{% extends "core/base.html" %}
+
+{% block titulo %}Editar Cita{% endblock %}
+
+{% block contenido %}
+<h1 class="text-center">Editar Cita</h1>
+
+<form method="post">
+  {% csrf_token %}
+  {{ form.as_p }}
+  <button type="submit" class="btn btn-primary">Guardar Cambios</button>
+  <a href="{% url 'citas:cita-list' %}" class="btn btn-secondary">Cancelar</a>
+</form>
+{% endblock %}

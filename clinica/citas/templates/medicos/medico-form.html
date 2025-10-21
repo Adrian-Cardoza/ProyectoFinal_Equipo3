@@ -1,0 +1,22 @@
+{% extends "core/base.html" %}
+
+{% block titulo %} Nuevo Medico {% endblock %}
+
+
+{% block contenido %}     
+    <form method="post">
+        {% csrf_token %}
+        <div class="card shadow-lg">
+            <div class="card-header">
+                <h2 class="card-title text-center">Nuevo Medico</h2>
+            </div>
+            <div class="card-body">
+                {{ form.as_table }}
+            </div>
+            <div class="card-footer d-flex justify-content-evenly">
+                <button type="submit" class="btn btn-success">Guardar</button>
+                <a href="{% url 'citas:medico-list' %}" class="btn btn-outline-danger">Cancelar</a>
+            </div>
+        </div>
+    </form>
+{% endblock %}

@@ -1,0 +1,34 @@
+{% extends "core/base.html" %}
+
+{% block titulo %} Listado de Medicos {% endblock %}
+
+
+{% block contenido %}
+<h1 class="text-center">Listado de Medicos</h1>
+<a href="{% url 'citas:medico-create' %}" class="btn btn-outline-success">Nuevo Medico</a>
+<hr>
+<table class="table">
+  <thead>
+    <tr>
+      <th scope="col">#</th>
+      <th scope="col">Nombre</th>
+      <th scope="col">Apellido</th>
+      <th scope="col">Telefono</th>
+      <th scope="col">Correo</th>
+      <th scope="col">Especialidad</th>
+    </tr>
+  </thead>
+  <tbody>
+    {% for m in medicos %}
+    <tr>
+      <th scope="row">{{ forloop.counter }}</th>
+      <td>{{ m.nombre }}</td>
+      <td>{{ m.apellido }}</td>
+      <td>{{ m.telefono }}</td>
+      <td>{{ m.correo }}</td>
+      <td>{{ m.especialidad }}</td>
+    </tr>
+    {% endfor %}
+  </tbody>
+</table>
+{% endblock %}

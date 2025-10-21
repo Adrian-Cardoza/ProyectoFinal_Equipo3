@@ -1,0 +1,28 @@
+{% extends "core/base.html" %}
+
+{% block titulo %} Listado de Citas {% endblock %}
+
+{% block contenido %}
+<h1 class="text-center">Listado de Especialidades</h1>
+<a href="{% url 'citas:especialidad-create' %}" class="btn btn-outline-success">Nueva especialidad</a>
+<hr>
+<table class="table">
+  <thead>
+    <tr>
+      <th scope="col">#</th>
+      <th scope="col">Nombre</th>
+      <th scope="col">Descripcion</th>
+     
+    </tr>
+  </thead>
+  <tbody>
+    {% for e in especialidades %}
+    <tr>
+      <th scope="row">{{ forloop.counter }}</th>
+      <td>{{ e.nombre_especialidad }}</td>
+      <td>{{ e.descripcion }}</td>
+    </tr>
+    {% endfor %}
+  </tbody>
+</table>
+{% endblock %}

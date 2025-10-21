@@ -24,7 +24,6 @@ class Medico(models.Model):
     telefono = models.CharField(max_length=25)
     correo = models.EmailField()
     especialidad = models.ForeignKey(Especialidad, on_delete=models.CASCADE)
-    usuario = models.ForeignKey('auth.User', on_delete=models.CASCADE)
 
     def __str__(self):
         return f"{self.nombre} {self.apellido}"
@@ -42,10 +41,10 @@ class Cita(models.Model):
     fecha_hora = models.DateTimeField()
     motivo = models.TextField()
     estado = models.CharField(max_length=20, choices=[
-        ('pendiente', 'Pendiente'),
-        ('atendida', 'Atendida'),
-        ('cancelada', 'Cancelada')
-    ], default='pendiente')
+        ('Pendiente', 'Pendiente'),
+        ('Atendida', 'Atendida'),
+        ('Cancelada', 'Cancelada')
+    ], default='Pendiente')
 
 
 # Modelo Paciente

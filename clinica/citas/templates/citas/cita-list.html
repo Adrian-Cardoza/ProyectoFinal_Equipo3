@@ -1,0 +1,40 @@
+{% extends "core/base.html" %}
+
+{% block titulo %} Listado de Citas {% endblock%}
+
+{% block contenido %}
+<h1 class="text-center">Listado de Citas</h1>
+<a href="{% url 'citas:cita-create' %}" class="btn btn-outline-success"
+  >Nueva Cita</a
+>
+<hr />
+<table class="table">
+  <thead>
+    <tr>
+      <th scope="col">#</th>
+      <th scope="col">Paciente</th>
+      <th scope="col">Médico</th>
+      <th scope="col">Fecha_Hora</th>
+      <th scope="col">Motivo</th>
+      <th scope="col">Estado</th>
+      <th scope="col">Acciones</th>
+    </tr>
+  </thead>
+  <tbody>
+    {% for c in citas %}
+    <tr>
+      <th scope="row">{{ forloop.counter }}</th>
+      <td>{{ c.paciente }}</td>
+      <td>{{ c.medico }}</td>
+      <td>{{ c.fecha_hora }}</td>
+      <td>{{ c.motivo }}</td>
+      <td>{{ c.estado }}</td>
+      
+      <td>
+        <a href="{% url 'citas:cita-update' c.id %}" class="btn btn-outline-primary btn-sm">Editar</a>
+      </td>
+    </tr>
+    {% endfor %}
+  </tbody>
+</table>
+{% endblock %}
