@@ -3,12 +3,171 @@
 {% block titulo %}Editar Cita{% endblock %}
 
 {% block contenido %}
-<h1 class="text-center">Editar Cita</h1>
+<div class="container py-4">
+    <!-- Header Section -->
+    <div class="row mb-4">
+        <div class="col-md-12">
+            <h1 class="display-5 fw-bold text-warning">
+                <i class="bi bi-pencil-square me-2"></i>Editar Cita
+            </h1>
+            <p class="text-muted">Modifique los datos de la cita médica</p>
+        </div>
+    </div>
 
-<form method="post">
-  {% csrf_token %}
-  {{ form.as_p }}
-  <button type="submit" class="btn btn-primary">Guardar Cambios</button>
-  <a href="{% url 'citas:cita-list' %}" class="btn btn-secondary">Cancelar</a>
-</form>
+    <!-- Breadcrumb -->
+    <nav aria-label="breadcrumb" class="mb-4">
+        <ol class="breadcrumb">
+            <li class="breadcrumb-item">
+                <a href="{% url 'citas:cita-list' %}" class="text-decoration-none">
+                    <i class="bi bi-house-door me-1"></i>Citas
+                </a>
+            </li>
+            <li class="breadcrumb-item active" aria-current="page">Editar Cita</li>
+        </ol>
+    </nav>
+
+    <div class="row justify-content-center">
+        <div class="col-lg-8">
+            <form method="post">
+                {% csrf_token %}
+                
+                <div class="card shadow-sm border-0">
+                    <div class="card-header bg-warning text-dark py-3">
+                        <h4 class="mb-0">
+                            <i class="bi bi-clipboard-check me-2"></i>Actualizar Información de la Cita
+                        </h4>
+                    </div>
+                    
+                    <div class="card-body p-4">
+                        {% if form.errors %}
+                        <div class="alert alert-danger alert-dismissible fade show" role="alert">
+                            <i class="bi bi-exclamation-triangle me-2"></i>
+                            <strong>¡Error!</strong> Por favor corrija los siguientes errores:
+                            <ul class="mb-0 mt-2">
+                                {% for field in form %}
+                                    {% if field.errors %}
+                                        {% for error in field.errors %}
+                                            <li>{{ field.label }}: {{ error }}</li>
+                                        {% endfor %}
+                                    {% endif %}
+                                {% endfor %}
+                            </ul>
+                            <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+                        </div>
+                        {% endif %}
+
+                        <div class="row g-3">
+                            <!-- Paciente -->
+                            <div class="col-md-6">
+                                <div class="mb-3">
+                                    <label for="{{ form.paciente.id_for_label }}" class="form-label fw-semibold">
+                                        <i class="bi bi-person me-1"></i>{{ form.paciente.label }}
+                                        {% if form.paciente.field.required %}
+                                            <span class="text-danger">*</span>
+                                        {% endif %}
+                                    </label>
+                                    {{ form.paciente }}
+                                    {% if form.paciente.errors %}
+                                        <div class="text-danger small mt-1">
+                                            {{ form.paciente.errors.0 }}
+                                        </div>
+                                    {% endif %}
+                                </div>
+                            </div>
+
+                            <!-- Médico -->
+                            <div class="col-md-6">
+                                <div class="mb-3">
+                                    <label for="{{ form.medico.id_for_label }}" class="form-label fw-semibold">
+                                        <i class="bi bi-person-badge me-1"></i>{{ form.medico.label }}
+                                        {% if form.medico.field.required %}
+                                            <span class="text-danger">*</span>
+                                        {% endif %}
+                                    </label>
+                                    {{ form.medico }}
+                                    {% if form.medico.errors %}
+                                        <div class="text-danger small mt-1">
+                                            {{ form.medico.errors.0 }}
+                                        </div>
+                                    {% endif %}
+                                </div>
+                            </div>
+
+                            <!-- Fecha y Hora -->
+                            <div class="col-md-6">
+                                <div class="mb-3">
+                                    <label for="{{ form.fecha_hora.id_for_label }}" class="form-label fw-semibold">
+                                        <i class="bi bi-calendar-event me-1"></i>{{ form.fecha_hora.label }}
+                                        {% if form.fecha_hora.field.required %}
+                                            <span class="text-danger">*</span>
+                                        {% endif %}
+                                    </label>
+                                    {{ form.fecha_hora }}
+                                    {% if form.fecha_hora.errors %}
+                                        <div class="text-danger small mt-1">
+                                            {{ form.fecha_hora.errors.0 }}
+                                        </div>
+                                    {% endif %}
+                                    <small class="form-text text-muted d-block mt-1">
+                                        <i class="bi bi-info-circle me-1"></i>Seleccione fecha y hora de la cita
+                                    </small>
+                                </div>
+                            </div>
+
+                            <!-- Estado -->
+                            <div class="col-md-6">
+                                <div class="mb-3">
+                                    <label for="{{ form.estado.id_for_label }}" class="form-label fw-semibold">
+                                        <i class="bi bi-check-circle me-1"></i>{{ form.estado.label }}
+                                        {% if form.estado.field.required %}
+                                            <span class="text-danger">*</span>
+                                        {% endif %}
+                                    </label>
+                                    {{ form.estado }}
+                                    {% if form.estado.errors %}
+                                        <div class="text-danger small mt-1">
+                                            {{ form.estado.errors.0 }}
+                                        </div>
+                                    {% endif %}
+                                </div>
+                            </div>
+
+                            <!-- Motivo (ocupa toda la fila) -->
+                            <div class="col-12">
+                                <div class="mb-3">
+                                    <label for="{{ form.motivo.id_for_label }}" class="form-label fw-semibold">
+                                        <i class="bi bi-chat-left-text me-1"></i>{{ form.motivo.label }}
+                                        {% if form.motivo.field.required %}
+                                            <span class="text-danger">*</span>
+                                        {% endif %}
+                                    </label>
+                                    {{ form.motivo }}
+                                    {% if form.motivo.errors %}
+                                        <div class="text-danger small mt-1">
+                                            {{ form.motivo.errors.0 }}
+                                        </div>
+                                    {% endif %}
+                                    <small class="form-text text-muted d-block mt-1">
+                                        <i class="bi bi-info-circle me-1"></i>Describa el motivo de la consulta
+                                    </small>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="card-footer bg-light py-3">
+                        <div class="d-flex justify-content-between align-items-center">
+                            <a href="{% url 'citas:cita-list' %}" class="btn btn-outline-secondary">
+                                <i class="bi bi-arrow-left me-2"></i>Cancelar
+                            </a>
+                            <button type="submit" class="btn btn-warning btn-lg px-5 text-dark">
+                                <i class="bi bi-save me-2"></i>Actualizar Cita
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
 {% endblock %}

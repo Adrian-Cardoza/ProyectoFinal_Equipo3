@@ -1,0 +1,88 @@
+{% load static %}
+<!-- {% load static widget_tweaks %} -->
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Login</title>
+
+    <!-- Bootstrap CSS -->
+    <link href="{% static 'core/css/bootstrap.min.css' %}" rel="stylesheet">
+    <!-- Bootstrap Icons -->
+     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.1/font/bootstrap-icons.css"/>
+</head>
+<body class="bg-light">
+
+    <div class="container d-flex justify-content-center align-items-center vh-100">
+    <div class="card login-card shadow-lg p-4" style="max-inline-size: 420px; inline-size: 100%;">
+        
+        <!-- Logo o Icono -->
+        <div class="text-center mb-4">
+            <div class="bg-primary bg-gradient rounded-circle d-inline-flex align-items-center justify-content-center" style="inline-size: 70px; block-size: 70px;">
+                <i class="bi bi-person-fill text-white fs-2"></i>
+            </div>
+        </div>
+
+        <!-- Título -->
+        <h3 class="text-center mb-4 fw-bold">Iniciar Sesión</h3>
+
+        <!-- Mensajes de Error -->
+        {% if form.errors %}
+            <div class="alert alert-danger alert-dismissible fade show" role="alert">
+                <strong>¡Error!</strong> Usuario o contraseña incorrectos.
+                <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+            </div>
+        {% endif %}
+
+        <!-- Formulario -->
+        <form method="post">
+            {% csrf_token %}
+            
+            <div class="mb-3">
+                <label for="{{ form.username.id_for_label }}" class="form-label">Usuario</label>
+                <input type="text" 
+                       name="{{ form.username.name }}" 
+                       class="form-control {% if form.username.errors %}is-invalid{% endif %}" 
+                       id="{{ form.username.id_for_label }}"
+                       placeholder="Ingrese su usuario"
+                       value="{{ form.username.value|default:'' }}"
+                       required>
+                {% if form.username.errors %}
+                    <div class="invalid-feedback">
+                        {{ form.username.errors }}
+                    </div>
+                {% endif %}
+            </div>
+
+            <div class="mb-4">
+                <label for="{{ form.password.id_for_label }}" class="form-label">Contraseña</label>
+                <input type="password" 
+                       name="{{ form.password.name }}" 
+                       class="form-control {% if form.password.errors %}is-invalid{% endif %}" 
+                       id="{{ form.password.id_for_label }}"
+                       placeholder="Ingrese su contraseña"
+                       required>
+                {% if form.password.errors %}
+                    <div class="invalid-feedback">
+                        {{ form.password.errors }}
+                    </div>
+                {% endif %}
+            </div>
+
+            <button type="submit" class="btn btn-primary btn-login w-100 mb-3">
+                Ingresar
+            </button>
+
+            <!-- Enlaces opcionales -->
+            <div class="text-center">
+                <small class="text-muted">¿Olvidaste tu contraseña? <a href="#" class="text-decoration-none">Recuperar</a></small>
+            </div>
+        </form>
+    </div>
+</div>
+
+    <!-- Bootstrap JS -->
+    <script src="{% static 'core/js/bootstrap.bundle.min.js' %}"></script>
+</body>
+</html>

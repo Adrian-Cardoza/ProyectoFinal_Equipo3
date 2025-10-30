@@ -1,34 +1,107 @@
 {% extends "core/base.html" %}
 
-{% block titulo %} Listado de Medicos {% endblock %}
-
+{% block titulo %}Listado de Médicos{% endblock %}
 
 {% block contenido %}
-<h1 class="text-center">Listado de Medicos</h1>
-<a href="{% url 'citas:medico-create' %}" class="btn btn-outline-success">Nuevo Medico</a>
-<hr>
-<table class="table">
-  <thead>
-    <tr>
-      <th scope="col">#</th>
-      <th scope="col">Nombre</th>
-      <th scope="col">Apellido</th>
-      <th scope="col">Telefono</th>
-      <th scope="col">Correo</th>
-      <th scope="col">Especialidad</th>
-    </tr>
-  </thead>
-  <tbody>
-    {% for m in medicos %}
-    <tr>
-      <th scope="row">{{ forloop.counter }}</th>
-      <td>{{ m.nombre }}</td>
-      <td>{{ m.apellido }}</td>
-      <td>{{ m.telefono }}</td>
-      <td>{{ m.correo }}</td>
-      <td>{{ m.especialidad }}</td>
-    </tr>
-    {% endfor %}
-  </tbody>
-</table>
+<div class="container-fluid py-4">
+    <!-- Header Section -->
+    <div class="row mb-4">
+        <div class="col-md-8">
+            <h1 class="display-5 fw-bold text-primary">
+                <i class="bi bi-person-badge me-2"></i>Gestión de Médicos
+            </h1>
+            <p class="text-muted">Administra y visualiza el personal médico de la clínica</p>
+        </div>
+        <div class="col-md-4 text-md-end">
+            <a href="{% url 'citas:medico-create' %}" class="btn btn-success btn-lg shadow-sm">
+                <i class="bi bi-plus-circle me-2"></i>Nuevo Médico
+            </a>
+        </div>
+    </div>
+
+    <!-- Stats Cards -->
+    <div class="row mb-4">
+        <div class="col-md-3">
+            <div class="card bg-primary text-white shadow-sm">
+                <div class="card-body">
+                    <h5 class="card-title"><i class="bi bi-people me-2"></i>Total Médicos</h5>
+                    <h2 class="mb-0">{{ medicos|length }}</h2>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Table Section -->
+    <div class="card shadow-sm">
+        <div class="card-header bg-white py-3">
+            <div class="row align-items-center">
+                <div class="col">
+                    <h5 class="mb-0 text-secondary">
+                        <i class="bi bi-list-ul me-2"></i>Listado Completo
+                    </h5>
+                </div>
+                <div class="col-auto">
+                    <span class="badge bg-secondary">{{ medicos|length }} registro(s)</span>
+                </div>
+            </div>
+        </div>
+        <div class="card-body p-0">
+            <div class="table-responsive">
+                <table class="table table-hover table-striped mb-0">
+                    <thead class="table-primary">
+                        <tr>
+                            <th scope="col" class="text-center">#</th>
+                            <th scope="col"><i class="bi bi-person me-1"></i>Nombre</th>
+                            <th scope="col"><i class="bi bi-person me-1"></i>Apellido</th>
+                            <th scope="col"><i class="bi bi-telephone me-1"></i>Teléfono</th>
+                            <th scope="col"><i class="bi bi-envelope me-1"></i>Correo</th>
+                            <th scope="col"><i class="bi bi-star me-1"></i>Especialidad</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {% for m in medicos %}
+                        <tr>
+                            <th scope="row" class="text-center align-middle">{{ forloop.counter }}</th>
+                            <td class="align-middle">
+                                <strong>{{ m.nombre }}</strong>
+                            </td>
+                            <td class="align-middle">
+                                <strong>{{ m.apellido }}</strong>
+                            </td>
+                            <td class="align-middle">
+                                <a href="tel:{{ m.telefono }}" class="text-decoration-none">
+                                    <i class="bi bi-phone me-1"></i>{{ m.telefono }}
+                                </a>
+                            </td>
+                            <td class="align-middle">
+                                <a href="mailto:{{ m.correo }}" class="text-decoration-none">
+                                    <i class="bi bi-envelope me-1"></i>{{ m.correo }}
+                                </a>
+                            </td>
+                            <td class="align-middle">
+                                <span class="badge bg-info text-dark">
+                                    {{ m.especialidad }}
+                                </span>
+                            </td>
+                        </tr>
+                        {% empty %}
+                        <tr>
+                            <td colspan="7" class="text-center py-5">
+                                <div class="text-muted">
+                                    <i class="bi bi-inbox display-4 d-block mb-3"></i>
+                                    <h5>No hay médicos registrados</h5>
+                                    <p>Comienza agregando un nuevo médico al sistema</p>
+                                    <a href="{% url 'citas:medico-create' %}" class="btn btn-primary">
+                                        <i class="bi bi-plus-circle me-2"></i>Agregar Primer Médico
+                                    </a>
+                                </div>
+                            </td>
+                        </tr>
+                        {% endfor %}
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+</div>
 {% endblock %}

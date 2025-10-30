@@ -1,40 +1,138 @@
 {% extends "core/base.html" %}
 
-{% block titulo %} Listado de Citas {% endblock%}
+{% block titulo %}Listado de Citas{% endblock %}
 
 {% block contenido %}
-<h1 class="text-center">Listado de Citas</h1>
-<a href="{% url 'citas:cita-create' %}" class="btn btn-outline-success"
-  >Nueva Cita</a
->
-<hr />
-<table class="table">
-  <thead>
-    <tr>
-      <th scope="col">#</th>
-      <th scope="col">Paciente</th>
-      <th scope="col">Médico</th>
-      <th scope="col">Fecha_Hora</th>
-      <th scope="col">Motivo</th>
-      <th scope="col">Estado</th>
-      <th scope="col">Acciones</th>
-    </tr>
-  </thead>
-  <tbody>
-    {% for c in citas %}
-    <tr>
-      <th scope="row">{{ forloop.counter }}</th>
-      <td>{{ c.paciente }}</td>
-      <td>{{ c.medico }}</td>
-      <td>{{ c.fecha_hora }}</td>
-      <td>{{ c.motivo }}</td>
-      <td>{{ c.estado }}</td>
-      
-      <td>
-        <a href="{% url 'citas:cita-update' c.id %}" class="btn btn-outline-primary btn-sm">Editar</a>
-      </td>
-    </tr>
-    {% endfor %}
-  </tbody>
-</table>
+<div class="container-fluid py-4">
+    <!-- Header Section -->
+    <div class="row mb-4">
+        <div class="col-md-8">
+            <h1 class="display-5 fw-bold text-primary">
+                <i class="bi bi-calendar-check me-2"></i>Gestión de Citas
+            </h1>
+            <p class="text-muted">Administra y visualiza todas las citas médicas programadas</p>
+        </div>
+        <div class="col-md-4 text-md-end">
+            <a href="{% url 'citas:cita-create' %}" class="btn btn-success btn-lg shadow-sm">
+                <i class="bi bi-plus-circle me-2"></i>Nueva Cita
+            </a>
+        </div>
+    </div>
+
+    <!-- Stats Cards (Optional) -->
+    <div class="row mb-4">
+        <div class="col-md-3">
+            <div class="card bg-primary text-white shadow-sm">
+                <div class="card-body">
+                    <h5 class="card-title"><i class="bi bi-calendar3 me-2"></i>Total Citas</h5>
+                    <h2 class="mb-0">{{ citas|length }}</h2>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Table Section -->
+    <div class="card shadow-sm">
+        <div class="card-header bg-white py-3">
+            <div class="row align-items-center">
+                <div class="col">
+                    <h5 class="mb-0 text-secondary">
+                        <i class="bi bi-list-ul me-2"></i>Listado Completo
+                    </h5>
+                </div>
+                <div class="col-auto">
+                    <span class="badge bg-secondary">{{ citas|length }} registro(s)</span>
+                </div>
+            </div>
+        </div>
+        <div class="card-body p-0">
+            <div class="table-responsive">
+                <table class="table table-hover table-striped mb-0">
+                    <thead class="table-primary">
+                        <tr>
+                            <th scope="col" class="text-center">#</th>
+                            <th scope="col"><i class="bi bi-person me-1"></i>Paciente</th>
+                            <th scope="col"><i class="bi bi-person-badge me-1"></i>Médico</th>
+                            <th scope="col"><i class="bi bi-clock me-1"></i>Fecha y Hora</th>
+                            <th scope="col"><i class="bi bi-chat-left-text me-1"></i>Motivo</th>
+                            <th scope="col" class="text-center"><i class="bi bi-check-circle me-1"></i>Estado</th>
+                            <th scope="col" class="text-center">Acciones</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {% for c in citas %}
+                        <tr>
+                            <th scope="row" class="text-center align-middle">{{ forloop.counter }}</th>
+                            <td class="align-middle">
+                                <strong>{{ c.paciente }}</strong>
+                            </td>
+                            <td class="align-middle">
+                                <span class="text-primary">Dr(a). {{ c.medico }}</span>
+                            </td>
+                            <td class="align-middle">
+                                <span class="badge bg-light text-dark">
+                                    {{ c.fecha_hora|date:"d/m/Y - H:i" }}
+                                </span>
+                            </td>
+                            <td class="align-middle">
+                                <small>{{ c.motivo|truncatewords:10 }}</small>
+                            </td>
+                            <td class="text-center align-middle">
+                                {% if c.estado == 'Pendiente' or c.estado == 'pendiente' %}
+                                    <span class="badge bg-warning text-dark">
+                                        <i class="bi bi-clock-history me-1"></i>{{ c.estado }}
+                                    </span>
+                                {% elif c.estado == 'Atendida' or c.estado == 'atendida' %}
+                                    <span class="badge bg-success">
+                                        <i class="bi bi-check-circle me-1"></i>{{ c.estado }}
+                                    </span>
+                                {% elif c.estado == 'Cancelada' or c.estado == 'cancelada' %}
+                                    <span class="badge bg-danger">
+                                        <i class="bi bi-x-circle me-1"></i>{{ c.estado }}
+                                    </span>
+                                {% else %}
+                                    <span class="badge bg-secondary">{{ c.estado }}</span>
+                                {% endif %}
+                            </td>
+                            <td class="text-center align-middle">
+                                <div class="btn-group" role="group">
+                                    <a href="{% url 'citas:cita-update' c.id %}" 
+                                       class="btn btn-outline-primary btn-sm"
+                                       data-bs-toggle="tooltip" 
+                                       title="Editar cita">
+                                        <i class="bi bi-pencil-square"></i>
+                                    </a>
+                                </div>
+                            </td>
+                        </tr>
+                        {% empty %}
+                        <tr>
+                            <td colspan="7" class="text-center py-5">
+                                <div class="text-muted">
+                                    <i class="bi bi-inbox display-4 d-block mb-3"></i>
+                                    <h5>No hay citas registradas</h5>
+                                    <p>Comienza agregando una nueva cita médica</p>
+                                    <a href="{% url 'citas:cita-create' %}" class="btn btn-primary">
+                                        <i class="bi bi-plus-circle me-2"></i>Crear Primera Cita
+                                    </a>
+                                </div>
+                            </td>
+                        </tr>
+                        {% endfor %}
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Optional: Activate tooltips -->
+<script>
+    document.addEventListener('DOMContentLoaded', function() {
+        var tooltipTriggerList = [].slice.call(document.querySelectorAll('[data-bs-toggle="tooltip"]'));
+        var tooltipList = tooltipTriggerList.map(function (tooltipTriggerEl) {
+            return new bootstrap.Tooltip(tooltipTriggerEl);
+        });
+    });
+</script>
 {% endblock %}

@@ -9,8 +9,11 @@ https://docs.djangoproject.com/en/5.2/topics/settings/
 For the full list of settings and their values, see
 https://docs.djangoproject.com/en/5.2/ref/settings/
 """
-
+import os
 from pathlib import Path
+from dotenv import load_dotenv
+
+load_dotenv()
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
@@ -39,6 +42,7 @@ INSTALLED_APPS = [
     "django.contrib.staticfiles",
     'citas',
     'core',
+    'widget_tweaks',
 ]
 
 MIDDLEWARE = [
@@ -63,6 +67,7 @@ TEMPLATES = [
                 "django.template.context_processors.request",
                 "django.contrib.auth.context_processors.auth",
                 "django.contrib.messages.context_processors.messages",
+                'core.context_processors.menu_roles',
             ],
         },
     },
@@ -76,10 +81,10 @@ WSGI_APPLICATION = "clinica.wsgi.application"
 
 DATABASES = {
     "default": {
-        'ENGINE': 'mssql',
-        'NAME': 'ClinicaDB',
-        'HOST': 'LAPTOP-CL7HHG73\\SQLEXPRESS',
-        'PORT': '1433',
+        'ENGINE': os.getenv('DB_ENGINE'),
+        'NAME': os.getenv('DB_NAME'),
+        'HOST': os.getenv('DB_HOST'),
+        'PORT': os.getenv('DB_PORT'),
         'OPTIONS': {
             'driver': 'ODBC Driver 17 for SQL Server',
             'trusted_connection': 'yes'
@@ -133,3 +138,9 @@ STATICFILES_DIRS = [
 # https://docs.djangoproject.com/en/5.2/ref/settings/#default-auto-field
 
 DEFAULT_AUTO_FIELD = "django.db.models.BigAutoField"
+
+
+# Parametros para el logeo de la aplicacion
+LOGIN_URL = "login"
+LOGIN_REDIRECT_URL = "citas:cita-list"
+LOGOUT_REDIRECT_URL = "login"

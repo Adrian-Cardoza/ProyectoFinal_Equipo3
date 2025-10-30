@@ -1,32 +1,101 @@
 {% extends "core/base.html" %}
 
-{% block titulo %} Listado de Pacientes {% endblock %}
-
+{% block titulo %}Listado de Pacientes{% endblock %}
 
 {% block contenido %}
-<h1 class="text-center">Listado de Pacientes</h1>
-<a href="{% url 'citas:paciente-create' %}" class="btn btn-outline-success">Nuevo Paciente</a>
-<hr>
-<table class="table">
-  <thead>
-    <tr>
-      <th scope="col">#</th>
-      <th scope="col">Nombre</th>
-      <th scope="col">Apellido</th>
-      <th scope="col">Correo</th>
-      <th scope="col">Telefono</th>
-    </tr>
-  </thead>
-  <tbody>
-    {% for p in pacientes %}
-    <tr>
-      <th scope="row">{{ forloop.counter }}</th>
-      <td>{{ p.nombre }}</td>
-      <td>{{ p.apellido }}</td>
-      <td>{{ p.correo }}</td>
-      <td>{{ p.telefono }}</td>
-    </tr>
-    {% endfor %}
-  </tbody>
-</table>
+<div class="container-fluid py-4">
+    <!-- Header Section -->
+    <div class="row mb-4">
+        <div class="col-md-8">
+            <h1 class="display-5 fw-bold text-primary">
+                <i class="bi bi-people me-2"></i>Gestión de Pacientes
+            </h1>
+            <p class="text-muted">Administra y visualiza todos los pacientes registrados en el sistema</p>
+        </div>
+        <div class="col-md-4 text-md-end">
+            <a href="{% url 'citas:paciente-create' %}" class="btn btn-success btn-lg shadow-sm">
+                <i class="bi bi-person-plus me-2"></i>Nuevo Paciente
+            </a>
+        </div>
+    </div>
+
+    <!-- Stats Cards -->
+    <div class="row mb-4">
+        <div class="col-md-3">
+            <div class="card bg-primary text-white shadow-sm">
+                <div class="card-body">
+                    <h5 class="card-title"><i class="bi bi-people-fill me-2"></i>Total Pacientes</h5>
+                    <h2 class="mb-0">{{ pacientes|length }}</h2>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Table Section -->
+    <div class="card shadow-sm">
+        <div class="card-header bg-white py-3">
+            <div class="row align-items-center">
+                <div class="col">
+                    <h5 class="mb-0 text-secondary">
+                        <i class="bi bi-list-ul me-2"></i>Listado Completo
+                    </h5>
+                </div>
+                <div class="col-auto">
+                    <span class="badge bg-secondary">{{ pacientes|length }} registro(s)</span>
+                </div>
+            </div>
+        </div>
+        <div class="card-body p-0">
+            <div class="table-responsive">
+                <table class="table table-hover table-striped mb-0">
+                    <thead class="table-primary">
+                        <tr>
+                            <th scope="col" class="text-center">#</th>
+                            <th scope="col"><i class="bi bi-person me-1"></i>Nombre</th>
+                            <th scope="col"><i class="bi bi-person me-1"></i>Apellido</th>
+                            <th scope="col"><i class="bi bi-envelope me-1"></i>Correo</th>
+                            <th scope="col"><i class="bi bi-telephone me-1"></i>Teléfono</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {% for p in pacientes %}
+                        <tr>
+                            <th scope="row" class="text-center align-middle">{{ forloop.counter }}</th>
+                            <td class="align-middle">
+                                <strong class="text-primary">{{ p.nombre }}</strong>
+                            </td>
+                            <td class="align-middle">
+                                <strong class="text-primary">{{ p.apellido }}</strong>
+                            </td>
+                            <td class="align-middle">
+                                <a href="mailto:{{ p.correo }}" class="text-decoration-none">
+                                    <i class="bi bi-envelope-fill me-1"></i>{{ p.correo }}
+                                </a>
+                            </td>
+                            <td class="align-middle">
+                                <span class="badge text-dark">
+                                    <i class="bi bi-telephone-fill me-1"></i>{{ p.telefono }}
+                                </span>
+                            </td>
+                        </tr>
+                        {% empty %}
+                        <tr>
+                            <td colspan="6" class="text-center py-5">
+                                <div class="text-muted">
+                                    <i class="bi bi-inbox display-4 d-block mb-3"></i>
+                                    <h5>No hay pacientes registrados</h5>
+                                    <p>Comienza agregando el primer paciente al sistema</p>
+                                    <a href="{% url 'citas:paciente-create' %}" class="btn btn-primary">
+                                        <i class="bi bi-person-plus me-2"></i>Registrar Primer Paciente
+                                    </a>
+                                </div>
+                            </td>
+                        </tr>
+                        {% endfor %}
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+</div>
 {% endblock %}

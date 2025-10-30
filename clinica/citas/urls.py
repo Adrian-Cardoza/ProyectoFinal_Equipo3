@@ -33,6 +33,7 @@ urlpatterns = [
     path('medicos/', MedicoListView.as_view(), name="medico-list"),
     path('medicos/nuevo', MedicoCreateView.as_view(), name="medico-create"),
     # citas
+    path('', CitaListView.as_view(), name="cita-list"),
     path('citas/', CitaListView.as_view(), name="cita-list"),
     path('citas/nueva', CitaCreateView.as_view(), name="cita-create"),
     path('citas/<int:pk>/editar', CitaUpdateView.as_view(), name="cita-update"),
