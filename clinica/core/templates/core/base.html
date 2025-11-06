@@ -40,43 +40,38 @@
 
           <div class="collapse navbar-collapse" id="navbarSupportedContent">
             <ul class="navbar-nav mx-auto mb-2 mb-lg-0">
-              {% if user.is_authenticated %}
-                {% if user|has_group:"Medicos" %}
-                  <li class="nav-item mx-2">
-                    <a
-                      class="nav-link px-3 py-2 rounded-pill transition-all"
-                      href="{% url 'citas:cita-list' %}"
-                    >
-                      <i class="bi bi-calendar-check-fill me-2"></i>Citas
-                    </a>
-                  </li>
-                {% else %}
-                  <li class="nav-item mx-2">
-                    <a
-                      class="nav-link px-3 py-2 rounded-pill transition-all"
-                      href="{% url 'citas:paciente-list' %}"
-                    >
-                      <i class="bi bi-people-fill me-2"></i>Pacientes
-                    </a>
-                  </li>
-                  <li class="nav-item mx-2">
-                    <a
-                      class="nav-link px-3 py-2 rounded-pill transition-all"
-                      href="{% url 'citas:especialidad-list' %}"
-                    >
-                      <i class="bi bi-star-fill me-2"></i>Especialidades
-                    </a>
-                  </li>
-                  <li class="nav-item mx-2">
-                    <a
-                      class="nav-link px-3 py-2 rounded-pill transition-all"
-                      href="{% url 'citas:medico-list' %}"
-                    >
-                      <i class="bi bi-person-badge-fill me-2"></i>Médicos
-                    </a>
-                  </li>
-                {% endif %}
-              {% endif %}
+              <li class="nav-item mx-2">
+                <a
+                  class="nav-link px-3 py-2 rounded-pill transition-all"
+                  href="{% url 'citas:paciente-list' %}"
+                >
+                  <i class="bi bi-people-fill me-2"></i>Pacientes
+                </a>
+              </li>
+              <li class="nav-item mx-2">
+                <a
+                  class="nav-link px-3 py-2 rounded-pill transition-all"
+                  href="{% url 'citas:especialidad-list' %}"
+                >
+                  <i class="bi bi-star-fill me-2"></i>Especialidades
+                </a>
+              </li>
+              <li class="nav-item mx-2">
+                <a
+                  class="nav-link px-3 py-2 rounded-pill transition-all"
+                  href="{% url 'citas:medico-list' %}"
+                >
+                  <i class="bi bi-person-badge-fill me-2"></i>Médicos
+                </a>
+              </li>
+              <li class="nav-item mx-2">
+                <a
+                  class="nav-link px-3 py-2 rounded-pill transition-all"
+                  href="{% url 'citas:cita-list' %}"
+                >
+                  <i class="bi bi-calendar-check-fill me-2"></i>Citas
+                </a>
+              </li>
             </ul>
 
             <div class="d-flex align-items-center">
