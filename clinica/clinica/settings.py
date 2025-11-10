@@ -81,8 +81,22 @@ WSGI_APPLICATION = "clinica.wsgi.application"
 # Database
 # https://docs.djangoproject.com/en/5.2/ref/settings/#databases
 
+# --- Base de datos ---
+
 DATABASES = {
-    "default": dj_database_url.parse(os.getenv('DATABASE_URL'))
+    'default': dj_database_url.parse(os.getenv('DATABASE_URL'))
+}
+
+DATABASES = {
+    'default': {
+        'ENGINE': os.getenv('DB_ENGINE'),
+        'NAME': os.getenv('DB_NAME'),
+        'HOST': os.getenv('DB_HOST'),
+        'PORT': os.getenv('DB_PORT'),
+        'OPTIONS': {
+            'driver': 'ODBC Driver 17 for SQL Server',
+        },
+    }
 }
 
 
