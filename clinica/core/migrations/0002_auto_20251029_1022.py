@@ -7,22 +7,29 @@ def create_roles_and_users(apps, schema_editor):
     from django.contrib.auth.models import Group, Permission, User
     from django.contrib.contenttypes.models import ContentType
 
-    # Create roles
-    roles = ['Admin', 'Medico', 'Recepcionista']
+    # Crear roles
+    roles = ['Admin', 'Medico', 'Paciente']
     grupos = {}
     for role in roles:
         grupo, created = Group.objects.get_or_create(name=role)
         grupos[role] = grupo
 
+    # --- Asignación de permisos ---
+
+    # Admin: todos los permisos
     grupos['Admin'].permissions.set(Permission.objects.all())
+
+    # Medico: puede ver y cambiar citas, y ver pacientes
     grupos['Medico'].permissions.set(Permission.objects.filter(codename__in=[
-        'cita-list',
-        'cita-update',
+        'view_cita', 'change_cita', 'view_paciente', 'view_medico'
     ]))
-    grupos['Recepcionista'].permissions.set(Permission.objects.filter(codename__in=[
-        'cita-create',
-        'cita-list',
+
+    # Paciente: puede agregar, ver y cambiar sus citas
+    grupos['Paciente'].permissions.set(Permission.objects.filter(codename__in=[
+        'view_cita'
     ]))
+
+    # --- Crear usuarios por defecto ---
 
     admin, _ = User.objects.get_or_create(username='admin')
     admin.set_password('admin123')
@@ -37,17 +44,18 @@ def create_roles_and_users(apps, schema_editor):
     medico.save()
     medico.groups.add(grupos['Medico'])
 
-    recepcionista, _ = User.objects.get_or_create(username='recepcionista')
-    recepcionista.set_password('recepcionista123')
-    recepcionista.is_staff = True
-    recepcionista.save()
-    recepcionista.groups.add(grupos['Recepcionista'])
+    paciente, _ = User.objects.get_or_create(username='paciente')
+    paciente.set_password('paciente123')
+    paciente.is_staff = False
+    paciente.save()
+    paciente.groups.add(grupos['Paciente'])
+
 
 def delete_roles_and_users(apps, schema_editor):
     from django.contrib.auth.models import Group, User
-    roles = ['Admin', 'Medico', 'Recepcionista']
+    roles = ['Admin', 'Medico', 'Paciente']
     Group.objects.filter(name__in=roles).delete()
-    User.objects.filter(username__in=['admin', 'medico', 'recepcionista']).delete()
+    User.objects.filter(username__in=['admin', 'medico', 'paciente']).delete()
 
 
 class Migration(migrations.Migration):

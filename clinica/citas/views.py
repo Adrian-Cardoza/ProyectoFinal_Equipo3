@@ -30,7 +30,7 @@ class EspecialidadListView(LoginRequiredMixin, RoleRequiredMixin, ListView):
     fields = ['nombre_especialidad', 'descripcion']
     template_name = "especialidades/especialidad-list.html"
     context_object_name = "especialidades"
-    allowed_roles = ['Admin', 'Recepcionista']
+    allowed_roles = ['Admin']
     
 
 # vista generica para agregar Especialidades
@@ -39,7 +39,7 @@ class EspecialidadCreateView(LoginRequiredMixin, RoleRequiredMixin, CreateView):
     form_class = EspecialidadForm
     template_name = "especialidades/especialidad-form.html"
     success_url = reverse_lazy("citas:especialidad-list")
-    allowed_roles = ['Admin', 'Recepcionista']
+    allowed_roles = ['Admin']
 
 
 # vista generica para Pacientes
@@ -48,7 +48,7 @@ class PacienteListView(LoginRequiredMixin, RoleRequiredMixin, ListView):
     fields = ['nombre', 'apellido', 'telefono', 'correo']
     template_name = "pacientes/paciente-list.html"
     context_object_name = "pacientes"
-    allowed_roles = ['Admin', 'Recepcionista']
+    allowed_roles = ['Admin']
 
 
 # vista generica para agregar Pacientes
@@ -57,7 +57,7 @@ class PacienteCreateView(LoginRequiredMixin, RoleRequiredMixin, CreateView):
     form_class = PacienteForm
     template_name = "pacientes/paciente-form.html"
     success_url = reverse_lazy("citas:paciente-list")
-    allowed_roles = ['Admin', 'Recepcionista']
+    allowed_roles = ['Admin']
 
 
 # vista generica para Medicos
@@ -66,7 +66,7 @@ class MedicoListView(LoginRequiredMixin, RoleRequiredMixin, ListView):
     fields = ['nombre', 'apellido', 'telefono', 'correo', 'especialidad']
     template_name = "medicos/medico-list.html"
     context_object_name = "medicos"
-    allowed_roles = ['Admin', 'Recepcionista']
+    allowed_roles = ['Admin']
 
 
 # vista generica para agregar Medicos
@@ -75,7 +75,7 @@ class MedicoCreateView(LoginRequiredMixin, RoleRequiredMixin, CreateView):
     form_class = MedicoForm
     template_name = "medicos/medico-form.html"
     success_url = reverse_lazy("citas:medico-list")
-    allowed_roles = ['Admin', 'Recepcionista']
+    allowed_roles = ['Admin']
 
 
 # vista generica para Citas
@@ -84,7 +84,7 @@ class CitaListView(LoginRequiredMixin, RoleRequiredMixin, ListView):
     fields = ['medico', 'paciente', 'fecha_hora', 'motivo', 'estado']
     template_name = "citas/cita-list.html"
     context_object_name = "citas"
-    allowed_roles = ['Admin', 'Medico', 'Recepcionista']
+    allowed_roles = ['Admin', 'Medico', 'Paciente']
 
 
 # vista generica para agregar Citas
@@ -93,7 +93,7 @@ class CitaCreateView(LoginRequiredMixin, RoleRequiredMixin, CreateView):
     form_class = CitaForm
     template_name = "citas/cita-form.html"
     success_url = reverse_lazy("citas:cita-list")
-    allowed_roles = ['Admin', 'Recepcionista']
+    allowed_roles = ['Admin']
     
     
 # vista generica para actualizar Citas
