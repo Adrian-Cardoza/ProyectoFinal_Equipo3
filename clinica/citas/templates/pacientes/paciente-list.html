@@ -51,22 +51,19 @@
                     <thead class="table-primary">
                         <tr>
                             <th scope="col" class="text-center">#</th>
-                            <th scope="col"><i class="bi bi-person me-1"></i>Nombre</th>
-                            <th scope="col"><i class="bi bi-person me-1"></i>Apellido</th>
-                            <th scope="col"><i class="bi bi-envelope me-1"></i>Correo</th>
-                            <th scope="col"><i class="bi bi-telephone me-1"></i>Teléfono</th>
+                            <th scope="col">Nombre</th>
+                            <th scope="col">Apellido</th>
+                            <th scope="col">Correo</th>
+                            <th scope="col">Teléfono</th>
+                            <th scope="col" class="text-center">Acciones</th>
                         </tr>
                     </thead>
                     <tbody>
                         {% for p in pacientes %}
                         <tr>
                             <th scope="row" class="text-center align-middle">{{ forloop.counter }}</th>
-                            <td class="align-middle">
-                                <strong class="text-primary">{{ p.nombre }}</strong>
-                            </td>
-                            <td class="align-middle">
-                                <strong class="text-primary">{{ p.apellido }}</strong>
-                            </td>
+                            <td class="align-middle"><strong class="text-primary">{{ p.nombre }}</strong></td>
+                            <td class="align-middle"><strong class="text-primary">{{ p.apellido }}</strong></td>
                             <td class="align-middle">
                                 <a href="mailto:{{ p.correo }}" class="text-decoration-none">
                                     <i class="bi bi-envelope-fill me-1"></i>{{ p.correo }}
@@ -76,6 +73,14 @@
                                 <span class="badge text-dark">
                                     <i class="bi bi-telephone-fill me-1"></i>{{ p.telefono }}
                                 </span>
+                            </td>
+                            <td class="text-center align-middle">
+                                <a href="{% url 'citas:paciente-update' p.id %}" class="btn btn-warning btn-sm me-2">
+                                    <i class="bi bi-pencil-square"></i>
+                                </a>
+                                <a href="{% url 'citas:paciente-delete' p.id %}" class="btn btn-danger btn-sm">
+                                    <i class="bi bi-trash"></i>
+                                </a>
                             </td>
                         </tr>
                         {% empty %}
