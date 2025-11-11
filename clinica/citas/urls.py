@@ -4,6 +4,8 @@ from .views import (
     # Vistas de Paciente
     PacienteListView,
     PacienteCreateView,
+    PacienteUpdateView,
+    PacienteDeleteView,
     # Vistas de Especialidad
     EspecialidadListView,
     EspecialidadCreateView,
@@ -24,6 +26,9 @@ urlpatterns = [
     # pacientes
     path('pacientes/', PacienteListView.as_view(), name="paciente-list"),
     path('pacientes/nuevo', PacienteCreateView.as_view(), name="paciente-create"),
+    path("pacientes/<int:pk>/editar/", PacienteUpdateView.as_view(), name="paciente-update"),
+    path("pacientes/<int:pk>/eliminar/", PacienteDeleteView.as_view(), name="paciente-delete"),
+
     # especialidades
     path('especialidades/', EspecialidadListView.as_view(),
          name="especialidad-list"),

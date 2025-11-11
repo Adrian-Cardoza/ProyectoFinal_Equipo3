@@ -1,6 +1,6 @@
 from django.shortcuts import render
 from django.contrib.auth.mixins import LoginRequiredMixin, UserPassesTestMixin
-from django.views.generic import ListView, CreateView, UpdateView
+from django.views.generic import ListView, CreateView, UpdateView, DeleteView
 from .models import Paciente, Medico, Cita, Especialidad
 # importar reverse_lazy para redirecciones
 from django.urls import reverse_lazy
@@ -58,6 +58,22 @@ class PacienteCreateView(LoginRequiredMixin, RoleRequiredMixin, CreateView):
     template_name = "pacientes/paciente-form.html"
     success_url = reverse_lazy("citas:paciente-list")
     allowed_roles = ['Admin']
+
+# vista generica para actualizar Pacientes
+class PacienteUpdateView(LoginRequiredMixin, RoleRequiredMixin, UpdateView):
+    model = Paciente
+    form_class = PacienteForm
+    template_name = "pacientes/paciente-update.html"
+    success_url = reverse_lazy("citas:paciente-list")
+    allowed_roles = ['Admin', 'Recepcionista']
+
+
+# vista generica para eliminar Pacientes
+class PacienteDeleteView(LoginRequiredMixin, RoleRequiredMixin, DeleteView):
+    model = Paciente
+    template_name = "pacientes/paciente-delete.html"
+    success_url = reverse_lazy("citas:paciente-list")
+    allowed_roles = ['Admin', 'Recepcionista']
 
 
 # vista generica para Medicos
